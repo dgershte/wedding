@@ -8,9 +8,9 @@
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="TimeCircles.js"></script>
+        <script type="text/javascript" src="md5.min.js"></script>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
-        <script src="index.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -24,6 +24,15 @@
         </script>
     </head>
     <body>
+        <div id="login">
+            <div id="error">The username and password do not match</div>
+            <br/>
+            <input type="text" id="username" name="username" placeholder="Username"/>
+            <br/>
+            <input type="password" id="password" name="password" placeholder="Password"/>
+            <br/>
+            <button id="sign-in" name="signin">Sign In</button>
+        </div>
         <div id="container">
             <div id="menu">
                 <ul>
@@ -40,16 +49,6 @@
             </div>
         </div>
         <div>
-            <div id="login">
-                <input class="mdl-textfield__input" type="text" id="email" name="email" placeholder="Email"/>
-                <br/><br/>
-                <input class="mdl-textfield__input" type="password" id="password" name="password" placeholder="Password"/>
-                <br/><br/>
-                <button disabled id="quickstart-sign-in" name="signin">Sign In</button>
-                <button id="quickstart-sign-up" name="signup">Sign Up</button>
-                <button disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
-                <button id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
-            </div>
             <div id="dateContainer">
                 <div id="DateCountdown" data-date="2017-09-08 16:00:00"></div>
             </div>
@@ -93,6 +92,33 @@
                     }
                 }
             });
+            $("#sign-in").on('click',function() { tryLogIn() });
+
+            function tryLogIn() {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var hash = md5(username+password);
+                firebase.database().ref('/'+ hash).once('value').then(function(snapshot) {
+                    var user = snapshot.val();
+                    if(user) {
+                        sessionStorage.setItem('currentUser', hash);
+                        logInSucceeded();
+                    } else {
+                        logInFail();
+                    }
+                });
+            
+            }
+
+            function logInSucceeded() {
+                $("#login").hide();
+                $("body").css("overflow","scroll");
+            }
+
+            function logInFail() {
+                $("#error").css("opacity","1");
+            }
+
             $(window).on('scroll',function(){
                 stop = Math.round($(window).scrollTop());
                 if (stop > 50) {
@@ -101,6 +127,17 @@
                     $('#menu').removeClass('secondary-header');
                 }
 
+            });
+            $(document).keypress(function (e) {
+                if (e.which == 13) {
+                    tryLogIn();
+                }
+            });
+
+            $(document).ready(function() {
+                if (sessionStorage.getItem('currentUser')) {
+                    logInSucceeded();
+                }
             });
         </script>
     </body>

@@ -1,10 +1,3 @@
-
-var admin = require("firebase-admin");
-
-admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-      databaseURL: "https://wedding-ace2b.firebaseio.com"
-});
     /**
      * Handles the sign in button press.
      */
@@ -161,13 +154,3 @@ admin.initializeApp({
     window.onload = function() {
       initApp();
     }
-
-
-
-    $.fn.scrollView = function () {
-        return this.each(function () {
-            $('html, body').animate({
-                scrollTop: $(this).offset().top
-            }, 1000);
-        });
-    };
