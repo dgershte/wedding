@@ -33,27 +33,36 @@
             <br/>
             <button id="sign-in" name="signin">Sign In</button>
         </div>
-        <div id="container">
+        <div id="home" class="container">
             <div id="menu">
                 <ul>
-                    <li class="hide"><h3>RSVP</h3></li>
+                    <li class="hide" onClick="$('#rsvp').scrollView();"><h3>RSVP</h3></li>
                     <li class="hide">·</li>
-                    <li class="hide" onclick="$('#gameContainer').scrollView();"><h3>Play</h3></li>
+                    <li class="hide" onClick="$('#proposal').scrollView();"><h3>Proposal</h3></li>
                     <li class="hide">·</li>
-                    <li onClick="$('#container').scrollView();"><div id="logo">Danny & Dalya</div></li>
+                    <li onClick="$('#home').scrollView();"><div id="logo">Danny & Dalya</div></li>
                     <li class="hide">·</li>
-                    <li class="hide"><h3>Proposal</h3></li>
+                    <li class="hide" onclick="$('#play').scrollView();"><h3>Play</h3></li>
                     <li class="hide">·</li>
                     <li class="hide"><a href="http://davidandkathrin.com/mountain-proposal/" target="_blank"><h3>Photos</h3></a></li>
                 </ul>
             </div>
-        </div>
-        <div>
             <div id="dateContainer">
                 <div id="DateCountdown" data-date="2017-09-08 16:00:00"></div>
             </div>
-            <div id="transition" class="white-gradient"></div>
-            <div id="gameContainer">
+        </div>
+        <div id="rsvp" class="container">
+            <h2>RSVP</h2>
+            <h3>Coming Soon...</h3>
+        </div>
+        <div id="proposal">
+            <h2 id="proposal-title">The Proposal</h2>
+            <div id="slideshow">
+            </div>
+        </div>
+        <div id="play" class="container">
+            <div id="gameContainer" class="container">
+                <h3>Your score:<span id="score">0</span></h3>
                 <object width="375" height="600">
                     <param name="movie" value="goat.swf">
                     <embed src="goat.swf" width="375" height="600"></embed>
@@ -61,6 +70,13 @@
             </div>
         </div>
         <script>
+            $.fn.scrollView = function () {
+                return this.each(function () {
+                    $('html, body').animate({
+                        scrollTop: $(this).offset().top
+                    }, 1000);
+                });
+            };
             $("#DateCountdown").TimeCircles({
                 "animation": "smooth",
                 "bg_width": 0.9,
