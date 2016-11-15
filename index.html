@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danny & Dalya</title>
+
+        <link rel="stylesheet" href="main.css">
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="TimeCircles.js"></script>
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
+        <script src="index.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA819BeXc4RCTwMOsqRdD6N8Vcr9oSNRS0",
+                authDomain: "wedding-ace2b.firebaseapp.com",
+                databaseURL: "https://wedding-ace2b.firebaseio.com",
+                storageBucket: "wedding-ace2b.appspot.com",
+                messagingSenderId: "71101751903"
+            };
+            firebase.initializeApp(config);
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="menu">
+                <ul>
+                    <li class="hide"><h3>RSVP</h3></li>
+                    <li class="hide">·</li>
+                    <li class="hide" onclick="$('#gameContainer').scrollView();"><h3>Play</h3></li>
+                    <li class="hide">·</li>
+                    <li onClick="$('#container').scrollView();"><div id="logo">Danny & Dalya</div></li>
+                    <li class="hide">·</li>
+                    <li class="hide"><h3>Proposal</h3></li>
+                    <li class="hide">·</li>
+                    <li class="hide"><a href="http://davidandkathrin.com/mountain-proposal/" target="_blank"><h3>Photos</h3></a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div id="login">
+                <input class="mdl-textfield__input" type="text" id="email" name="email" placeholder="Email"/>
+                <br/><br/>
+                <input class="mdl-textfield__input" type="password" id="password" name="password" placeholder="Password"/>
+                <br/><br/>
+                <button disabled id="quickstart-sign-in" name="signin">Sign In</button>
+                <button id="quickstart-sign-up" name="signup">Sign Up</button>
+                <button disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
+                <button id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
+            </div>
+            <div id="dateContainer">
+                <div id="DateCountdown" data-date="2017-09-08 16:00:00"></div>
+            </div>
+            <div id="transition" class="white-gradient"></div>
+            <div id="gameContainer">
+                <object width="375" height="600">
+                    <param name="movie" value="goat.swf">
+                    <embed src="goat.swf" width="375" height="600"></embed>
+                </object>
+            </div>
+        </div>
+        <script>
+            $("#DateCountdown").TimeCircles({
+                "animation": "smooth",
+                "bg_width": 0.9,
+                "fg_width": 0.025,
+                "circle_bg_color": "#929599",
+                "time": {
+                    "Days": {
+                        "text": "Days",
+                        "color": "#ffffff",
+                        "show": true
+                    },
+                    "Hours": {
+                        "text": "Hours",
+                        //"color": "#99CCFF",
+                        "color": "#ffffff",
+                        "show": true
+                    },
+                    "Minutes": {
+                        "text": "Minutes",
+                        //"color": "#BBFFBB",
+                        "color": "#ffffff",
+                        "show": true
+                    },
+                    "Seconds": {
+                        "text": "Seconds",
+                        //"color": "#FF9999",
+                        "color": "#ffffff",
+                        "show": true
+                    }
+                }
+            });
+            $(window).on('scroll',function(){
+                stop = Math.round($(window).scrollTop());
+                if (stop > 50) {
+                    $('#menu').addClass('secondary-header');
+                } else {
+                    $('#menu').removeClass('secondary-header');
+                }
+
+            });
+        </script>
+    </body>
+</html>

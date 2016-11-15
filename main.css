@@ -1,0 +1,238 @@
+html, body {
+    padding:0;
+    margin:0;
+    height:100%;
+}
+
+body {
+}
+
+#container {
+    background: url(bg4.1.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+#container2 {
+    background: url(bg6.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#logo {
+    font-family: "Sweetly Broken";
+    background-color:white;
+    font-size:30px;
+    width:100px;
+    border-radius:50%;
+    box-shadow: 0px 0px 8px rgba(136, 136, 136, 0.19);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.black-gradient {
+    background: -moz-linear-gradient(top, rgba(0,0,0,0) 79%, rgba(0,0,0,0.01) 80%, rgba(0,0,0,0.6) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 79%,rgba(0,0,0,0.01) 80%,rgba(0,0,0,0.6) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 79%,rgba(0,0,0,0.01) 80%,rgba(0,0,0,0.6) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    width:100%;
+    height:100%;
+}
+
+.white-gradient {
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 25%, rgba(255,255,255,1) 69%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 25%,rgba(255,255,255,1) 69%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 25%,rgba(255,255,255,1) 69%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    height:400px;
+    width:100%;
+}
+
+@font-face {
+    font-family: "Beyond the Mountains";
+    src: url(beyond_the_mountains.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Sweetly Broken";
+    src: url(sweetly_broken.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Poiret One";
+    src: url(poiret_one.ttf) format("truetype");
+}
+h2 { 
+    font-family: "Sweetly Broken";
+    padding: 0;
+    margin: 0;
+}
+
+h3, h4 {
+    font-family: "Poiret One", Vertana, Tahoma;
+}
+
+
+#login {
+    background-color: rgba(255,255,255,0.5);
+    padding: 15px;
+    position:absolute;
+    bottom:50px;
+    display:none;
+}
+
+a {
+    text-decoration:none;
+}
+
+ul {
+    list-style-type: none;
+    margin: auto;
+    padding: 0 40px;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    background-color: #e6e6e6;
+    justify-content: space-around;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.secondary-header ul{
+    background-color:white;
+}
+
+#menu.secondary-header {
+    top:0;
+    position:fixed;
+}
+
+.secondary-header #logo {
+    width:auto;
+    box-shadow:none;
+    background-color:transparent;
+}
+
+li {
+    text-align:center;
+}
+
+input {
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+}
+
+header {
+    font-size: 30px;
+    color: #8c8c8c;
+    height: auto;
+    text-align:center;
+    margin-top:30px;
+}
+
+#menu {
+    width: 100%;
+//    background-color: white;
+    height: auto;
+    position: absolute;
+    top: 50px;
+//    border-top: 1px solid rgba(128, 128, 128, 0.13);
+//    border-bottom: 1px solid rgba(128, 128, 128, 0.13);
+    z-index:1;
+}
+
+
+/**
+ *	This element is created inside your target element
+ *	It is used so that your own element will not need to be altered
+ **/
+
+#dateContainer {
+    display:flex;
+    justify-content:center;
+    width:100%;
+}
+
+#DateCountdown {
+    color:white;
+    position:absolute;
+    bottom:20px;
+    height:120px;
+    width:480px;
+    padding:0;
+}
+
+#transition {
+    height:600px;
+}
+
+#gameContainer {
+    height:600px;
+    width:100%;
+    background-color:white;
+    display: flex;
+    justify-content: center;
+    padding-bottom:100px;
+}
+
+.time_circles {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ *	This is all the elements used to house all text used
+ * in time circles
+ **/
+.time_circles > div {
+    position: absolute;
+    text-align: center;
+}
+
+/**
+ *	Titles (Days, Hours, etc)
+ **/
+.time_circles > div > h4 {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/**
+ *	Time numbers, ie: 12
+ **/
+.time_circles > div > span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 200%;
+    margin-top: 0.4em;
+    font-weight: bold;
+    font-family: "Poiret One";
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .hide {
+        display:none;
+    }
+    #DateCountdown {
+        height:90px;
+        width:360px;
+    }
+}
