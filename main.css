@@ -5,8 +5,14 @@ html, body {
 }
 
 body {
-    overflow:hidden;
     font-family: "Poiret One";
+}
+
+#wrapper {
+    overflow:hidden;
+    overflow-x:hidden !important;
+    height:100%;
+    position:relative;
 }
 
 .container {
@@ -109,6 +115,7 @@ h2 {
     left: 20%;
     position: relative;
     font-size: 30px;
+    width: 100px;
 }
 
 a {

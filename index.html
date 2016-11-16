@@ -24,6 +24,7 @@
         </script>
     </head>
     <body>
+    <div id="wrapper">
         <div id="login">
             <div id="error">The username and password do not match</div>
             <br/>
@@ -123,12 +124,11 @@
                         logInFail();
                     }
                 });
-            
             }
 
             function logInSucceeded() {
                 $("#login").hide();
-                $("body").css("overflow","scroll");
+                $("#wrapper").css("overflow","scroll");
             }
 
             function logInFail() {
@@ -156,5 +156,6 @@
                 }
             });
         </script>
+    </div>
     </body>
 </html>
