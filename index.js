@@ -10,7 +10,7 @@ function tryLogIn() {
             sessionStorage.setItem('currentUser', hash);
             logInSucceeded();
         } else {
-            logInFail();
+            logInFailed();
         }
     });
 }
@@ -21,8 +21,14 @@ function logInSucceeded() {
     $("#wrapper").css("overflow","scroll");
 }
 
-function logInFail() {
+function logInFailed() {
     $("#error").css("opacity","1");
+}
+
+function updateScore(score) {
+    firebase.database().ref('/' + currentUser).update({
+        score: score,
+    });
 }
 
 $(document).keypress(function (e) {
@@ -32,7 +38,8 @@ $(document).keypress(function (e) {
 });
 
 $(document).ready(function() {
-    if (sessionStorage.getItem('currentUser')) {
+    currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
         logInSucceeded();
     }
     $("#DateCountdown").TimeCircles({
@@ -76,6 +83,7 @@ $(document).ready(function() {
         }
     });
 });
+
 $.fn.scrollView = function () {
     return this.each(function () {
         $('body').animate({
