@@ -306,4 +306,7 @@ header {
         height:100%;
         position:relative;
     }
+    body {
+        overflow:scroll;
+    }
 }

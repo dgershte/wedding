@@ -18,6 +18,7 @@ function tryLogIn() {
 function logInSucceeded() {
     $("#login").hide();
     $("body").css("overflow","scroll");
+    $("#wrapper").css("overflow","scroll");
 }
 
 function logInFail() {
