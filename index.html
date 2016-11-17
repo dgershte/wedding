@@ -5,10 +5,10 @@
         <title>Danny & Dalya</title>
 
         <link rel="stylesheet" href="main.css">
-
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="TimeCircles.js"></script>
         <script type="text/javascript" src="md5.min.js"></script>
+        <script type="text/javascript" src="index.js"></script>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
         <script>
@@ -70,92 +70,6 @@
                 </object>
             </div>
         </div>
-        <script>
-            $.fn.scrollView = function () {
-                return this.each(function () {
-                    $('html, body').animate({
-                        scrollTop: $(this).offset().top
-                    }, 1000);
-                });
-            };
-            $("#DateCountdown").TimeCircles({
-                "animation": "smooth",
-                "bg_width": 0.9,
-                "fg_width": 0.025,
-                "circle_bg_color": "#929599",
-                "time": {
-                    "Days": {
-                        "text": "Days",
-                        "color": "#ffffff",
-                        "show": true
-                    },
-                    "Hours": {
-                        "text": "Hours",
-                        //"color": "#99CCFF",
-                        "color": "#ffffff",
-                        "show": true
-                    },
-                    "Minutes": {
-                        "text": "Minutes",
-                        //"color": "#BBFFBB",
-                        "color": "#ffffff",
-                        "show": true
-                    },
-                    "Seconds": {
-                        "text": "Seconds",
-                        //"color": "#FF9999",
-                        "color": "#ffffff",
-                        "show": true
-                    }
-                }
-            });
-            $("#sign-in").on('click',function() { tryLogIn() });
-
-            function tryLogIn() {
-                var username = $("#username").val();
-                var password = $("#password").val();
-                var hash = md5(username+password);
-                firebase.database().ref('/'+ hash).once('value').then(function(snapshot) {
-                    var user = snapshot.val();
-                    if(user) {
-                        sessionStorage.setItem('currentUser', hash);
-                        logInSucceeded();
-                    } else {
-                        logInFail();
-                    }
-                });
-            }
-
-            function logInSucceeded() {
-                $("#login").hide();
-                $("#wrapper").css("overflow","scroll");
-            }
-
-            function logInFail() {
-                $("#error").css("opacity","1");
-            }
-
-            $(window).on('scroll',function(){
-                stop = Math.round($(window).scrollTop());
-                if (stop > 50) {
-                    $('#menu').addClass('secondary-header');
-                } else {
-                    $('#menu').removeClass('secondary-header');
-                }
-
-            });
-            $(document).keypress(function (e) {
-                if (e.which == 13) {
-                    tryLogIn();
-                }
-            });
-
-            $(document).ready(function() {
-                if (sessionStorage.getItem('currentUser')) {
-                    logInSucceeded();
-                }
-            });
-        </script>
     </div>
     </body>
 </html>
