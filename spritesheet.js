@@ -149,6 +149,9 @@ function TileClip(name){
     this._pivotx = 0;
     this._pivoty = 0;
 
+    this._scaleX = 1;
+    this._rot = 0;
+
     if(texturemap[name]){
         this._frames.push(texturemap[name]);
     } else {
@@ -189,10 +192,22 @@ function TileClip(name){
 
     this.render = function(){
         var r = this._frames[this._frame];
+
+        ctx.save();
+
+        var rot = this._rot*this._scaleX;
+        //ctx.scale(this._scaleX, 1);
+        var sin = Math.sin(rot);
+        var cos = Math.cos(rot);
+        ctx.translate(this._x-this._scaleX*this._pivotx*cos + this._pivoty*sin,
+                      this._y-this._scaleX*this._pivotx*sin - this._pivoty*cos);
+        ctx.rotate(rot);
+        ctx.scale(this._scaleX, 1);
         ctx.drawImage(resources.get("img/anim.png"),
                       r._x, r._y,
                       r._w, r._h,
-                      this._x - this._pivotx, this._y - this._pivoty,
+                      0, 0,
                       r._w, r._h);
+        ctx.restore();
     }
 }

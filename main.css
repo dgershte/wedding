@@ -252,6 +252,20 @@ header {
     justify-content: center;
 }
 
+#score {
+    font-size: 25px;
+    padding-bottom: 25px;
+    color: #00a9ff;
+}
+
+#replay {
+    position:absolute;
+    font-family: "Sweetly Broken";
+    font-size: 60px;
+    font-family: "Sweetly Broken";
+    opacity:0;
+}
+
 .time_circles {
     position: relative;
     width: 100%;

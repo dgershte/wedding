@@ -8,6 +8,8 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="TimeCircles.js"></script>
         <script type="text/javascript" src="md5.min.js"></script>
+        <script src="spritesheet.js"></script>
+        <script src="jumpgame.js"></script>
         <script type="text/javascript" src="index.js"></script>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
@@ -63,11 +65,11 @@
         </div>
         <div id="play" class="container">
             <div id="gameContainer" class="container">
-                <h3>Your score:<span id="score">0</span></h3>
-                <object width="375" height="600">
-                    <param name="movie" value="goat.swf">
-                    <embed src="goat.swf" width="375" height="600"></embed>
-                </object>
+                <h3>Your score</h3>
+                <div id="score"></div>
+                <div onclick="reset()" id="replay">Replay?</div>
+                <canvas id="canvas">
+                </canvas>
             </div>
         </div>
     </div>

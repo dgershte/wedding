@@ -16,6 +16,7 @@
 
 	var keyLeft = false;
 	var keyRight = false;
+    var keySpace = false;
 
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
@@ -24,7 +25,9 @@
 			keyLeft = true;
 		} else if (key == 39) {
 			keyRight = true;
-		}
+        } else if(key == 32){
+            keySpace = true;
+        }
 	}
 
 	window.onkeyup = function(e) {
@@ -34,7 +37,9 @@
 			keyLeft = false;
 		} else if (key == 39) {
 			keyRight = false;
-		}
+        } else if(key == 32){
+            keySpace = false;
+        }
 	}
 
 	var canX = [], canY = [],
@@ -56,9 +61,13 @@
 	}
 
 	function touchUp(e) {
-		if (!e)
+        if (!e) {
 			e = event;
-		len = e.targetTouches.length;
+            len = e.targetTouches.length;
+        }
+
+        mouseIsDown = 0;
+        touchXY();
 	}
 
 	function mouseXY(e) {
@@ -80,31 +89,12 @@
 		}
 	}
 
-	/*
-	function getLeftRight(){
-		left = false;
-		right = false;
-		if(mouseIsDown == 1){
-			if(canX[0]<canvas.width/2){
-				left = true;
-				right = false;
-			} else {
-				right = true;
-				left = false;
-			}
-		}
-	}
-	*/
-
-
-
 	// The main game loop
 	var lastTime;
 	function main() {
 		var now = Date.now();
 		var dt = (now - lastTime) / 1000.0;
 
-		//getLeftRight();
 		update(dt);
 		render();
 

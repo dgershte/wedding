@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:2d469f13043b6745b27d580a6c06d005:a0feb85bac261c4d428e0b3f174f8682:fe00ebb22c22e38ec181220f8610e862$ -->
-<TextureAtlas imagePath="anim.png" width="2048" height="2048">
-    <SubTexture name="badCloud" x="364" y="3" width="111" height="20"/>
-    <SubTexture name="goat0001" x="532" y="28" width="45" height="34" frameX="0" frameY="-1" frameWidth="45" frameHeight="42"/>
-    <SubTexture name="goat0002" x="481" y="28" width="45" height="40" frameX="0" frameY="-1" frameWidth="45" frameHeight="42"/>
-    <SubTexture name="goat0003" x="598" y="3" width="45" height="41" frameX="0" frameY="-1" frameWidth="45" frameHeight="42"/>
-    <SubTexture name="goodCloud" x="481" y="3" width="111" height="19" frameX="0" frameY="-1" frameWidth="111" frameHeight="20"/>
-    <SubTexture name="mountain" x="3" y="3" width="355" height="293" frameX="0" frameY="-1" frameWidth="356" frameHeight="295"/>
-    <SubTexture name="powerup0001" x="364" y="47" width="15" height="19" frameX="-10" frameY="-4" frameWidth="32" frameHeight="23"/>
-    <SubTexture name="powerup0002" x="440" y="29" width="17" height="21" frameX="-7" frameY="0" frameWidth="32" frameHeight="23"/>
-    <SubTexture name="powerup0003" x="364" y="29" width="32" height="12" frameX="0" frameY="-9" frameWidth="32" frameHeight="23"/>
-    <SubTexture name="powerup0004" x="402" y="29" width="32" height="12" frameX="0" frameY="-9" frameWidth="32" frameHeight="23"/>
+<!-- $TexturePacker:SmartUpdate:fd7fe64a4e4bedbd8f87568ebbce298e:78dd5b87440e1952833cf934b4afcf58:fe00ebb22c22e38ec181220f8610e862$ -->
+<TextureAtlas imagePath="anim.png" width="1024" height="1024">
+    <SubTexture name="badCloud" x="599" y="3" width="115" height="42"/>
+    <SubTexture name="goat0001" x="515" y="198" width="52" height="63" frameX="-9" frameY="-33" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0002" x="909" y="98" width="59" height="83" frameX="-8" frameY="-13" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0003" x="680" y="161" width="56" height="58" frameX="-15" frameY="-27" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0004" x="742" y="161" width="50" height="66" frameX="-15" frameY="-31" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0005" x="515" y="108" width="75" height="84" frameX="-8" frameY="-12" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0006" x="834" y="3" width="73" height="84" frameX="-7" frameY="-12" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0007" x="598" y="80" width="76" height="84" frameX="-9" frameY="-11" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0008" x="515" y="13" width="77" height="89" frameX="0" frameY="0" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0009" x="913" y="3" width="70" height="89" frameX="-4" frameY="-5" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="goat0010" x="834" y="93" width="69" height="83" frameX="-5" frameY="-14" frameWidth="85" frameHeight="97"/>
+    <SubTexture name="gondola" x="720" y="3" width="108" height="152"/>
+    <SubTexture name="gondola_line" x="3" y="3" width="590" height="4"/>
+    <SubTexture name="mountain" x="3" y="13" width="506" height="308"/>
+    <SubTexture name="powerup0001" x="596" y="170" width="56" height="40"/>
+    <SubTexture name="powerup0002" x="974" y="147" width="36" height="40"/>
+    <SubTexture name="powerup0003" x="974" y="98" width="37" height="43"/>
+    <SubTexture name="powerup0004" x="974" y="98" width="37" height="43"/>
+    <SubTexture name="replay" x="598" y="51" width="83" height="23" frameX="-11" frameY="-6" frameWidth="104" frameHeight="30"/>
 </TextureAtlas>

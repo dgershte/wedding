@@ -6,6 +6,9 @@ var mountainTCs = [];
 var cIdx = 0;
 var cloudTCs = [];
 
+var tIdx = 0;
+var lineTCs = [];
+
 var bIdx = 0;
 var badCloudTCs = [];
 
@@ -28,6 +31,7 @@ var charxspd = 8;
 var charface = false;
 
 var lines = [];
+var numlines = 0;
 
 var linew = 100;
 var hitline = false;
@@ -56,7 +60,13 @@ var maxScore = 0;
 
 var pause = false;
 
+var replayTC;
+
 function setup(){
+
+    document.getElementById("replay").style.opacity = "0";
+    document.getElementById("canvas").style.opacity = "1";
+
 	maxCharY = 0;
 	maxScore = 0;
 	score = 0;
@@ -64,8 +74,25 @@ function setup(){
 	chary = screenh;
 	charx = 100;
 
+    currp = -1;
+    boots = 0;
+    ptimer = 0;
+    rr = 0;
+
+    lines = [];
+    powerups = [];
+    numlines = 0;
+    tcs = [];
+
 	charTC = new TileClip("goat");
-	charTC.setPivot(19,30);
+	charTC.setPivot(32,65);
+
+    replayTC = new TileClip("replay");
+    replayTC.setPivot(50,15);
+    replayTC._x = screenw/2;
+    replayTC._y = screenh/2;
+
+    displayScore(score);
 }
 
 function getMountainTC(){
@@ -74,20 +101,34 @@ function getMountainTC(){
 		return mountainTCs[mIdx-1];
 	} else {
 		var mountainTC = new TileClip("mountain");
-		mountainTC.setPivot(177,5);
+		mountainTC.setPivot(292,5);
 		mountainTCs.push(mountainTC);
 		mIdx++;
 		return mountainTC;
 	}
 }
 
+function getLineTC(){
+	if(tIdx < lineTCs.length){
+		tIdx ++;
+		return lineTCs[tIdx-1];
+	} else {
+		var lineTC = new TileClip("gondola_line");
+		lineTC.setPivot(0,70);
+		lineTCs.push(lineTC);
+		tIdx++;
+		return lineTC;
+	}
+}
+
+
 function getCloudTC(){
 	if(cIdx < cloudTCs.length){
 		cIdx ++;
 		return cloudTCs[cIdx-1];
 	} else {
-		var cloudTC = new TileClip("goodCloud");
-		cloudTC.setPivot(50,10);
+		var cloudTC = new TileClip("gondola");
+		cloudTC.setPivot(53,70);
 		cloudTCs.push(cloudTC);
 		cIdx++;
 		return cloudTC;
@@ -100,7 +141,7 @@ function getBadCloudTC(){
 		return badCloudTCs[bIdx-1];
 	} else {
 		var badCloudTC = new TileClip("badCloud");
-		badCloudTC.setPivot(50,10);
+		badCloudTC.setPivot(50,5);
 		badCloudTCs.push(badCloudTC);
 		bIdx++;
 		return badCloudTC;
@@ -113,15 +154,42 @@ function getPowerupTC(){
 		return powerupTCs[pIdx-1];
 	} else {
 		var powerupTC = new TileClip("powerup");
-		powerupTC.setPivot(10,10);
+		powerupTC.setPivot(10,35);
 		powerupTCs.push(powerupTC);
 		pIdx++;
 		return powerupTC;
 	}
 }
 
+function displayScore(score){
+    var scorediv = document.getElementById("score");
+    scorediv.innerHTML = score;
+}
+
+var isMouseDown = false;
+
+
+function reset(){
+    keySpace = false;
+    pause = false;
+    setup();
+}
+
 function everyframe(dt){
-	if(pause) return;
+    if(keySpace){
+        reset();
+    }
+
+	if(pause) {
+        if(isMouseDown && !mouseIsDown){
+            isMouseDown = false;
+        }
+        if(!isMouseDown && mouseIsDown){
+            reset();
+        }
+        drawCanvas();
+        return;
+    }
 	
 	// Calc shift amount
 	diffy = 0;
@@ -146,7 +214,11 @@ function everyframe(dt){
 		maxCharY = Math.ceil(screenh - chary);
 	}
 	
-	score = Math.max(score, maxCharY + Math.ceil(baseScore));
+    var newscore = maxCharY + Math.ceil(baseScore);
+    if(newscore > score){
+        score = newscore;
+        displayScore(score);
+    }
 	
 	if(chary > screenh){
 		if(baseScore == 0){
@@ -158,8 +230,10 @@ function everyframe(dt){
 	if(chary > screenh + charh*2){
 		if(baseScore != 0){
 			pause = true;
+            isMouseDown = mouseIsDown;
 		}
 	}
+
 	hitline = false;
 	
 	calcLineHits();
@@ -167,12 +241,23 @@ function everyframe(dt){
 	
 	if(hitline) { jump(); }
 
+    drawCanvas();
+}
+
+function drawCanvas(){
 	clearGraphics();
 
 	tcs = [];
+
+    charTC._scaleX = charface?-1:1;
+
 	drawLines();
 	drawPowerups();
 	drawChar();
+
+    if(pause){
+        drawReplay();
+    }
 }
 
 function updatePowerups() {
@@ -221,11 +306,13 @@ function calcInputs(){
 			}
 			if(Math.abs(charx-locX)<charxspd){
 				targetX = locX;
-				if(targetX > charx){
-					charface = true;
-				} else if(targetX < charx){
-					charface = false;
-				}
+                if(currp != 0 && currp!=1){
+                    if(targetX > charx){
+                        charface = true;
+                    } else if(targetX < charx){
+                        charface = false;
+                    }
+                }
 				charx = targetX;
 			}
 		}
@@ -238,7 +325,9 @@ function calcInputs(){
 function moveLeftRight(){
 	if(left && !right){
 		charx -= charxspd;
-		charface = false;
+        if(currp != 0 && currp!=1){
+            charface = false;
+        }
 		if(charx<0){
 			charx = 0;
 		}
@@ -248,7 +337,9 @@ function moveLeftRight(){
 		if(charx>screenw){
 			charx = screenw;
 		}
-		charface = true;
+        if(currp != 0 && currp!=1){
+            charface = true;
+        }
 	}
 }
 
@@ -310,6 +401,12 @@ function calcPowerupHits(){
 	var i = 0;
 					
 	var hitchar = false;
+
+    if(boots>0){
+        charw = 50;
+    } else {
+        charw = 35;
+    }
 
 	while(i<powerups.length){
 		var powerup = powerups[i];
@@ -391,11 +488,20 @@ function createLines(){
 			newx = Math.random()*(screenw/2-linew)+screenw/2
 		}
 		var newy = lasty-40-Math.random()*30;
-		var newtype = Math.floor(Math.random()*3);
+
+        var newtype = 0;
+        if(numlines > 30){
+            newtype = Math.floor(Math.random()*3);
+        } else if(numlines > 8){
+            newtype = Math.floor(Math.random()*2);
+        }
+
+        numlines++;
+
 		lines.push(new Line(newx, newy, newtype));
 		lasty = lines[lines.length-1]._y;
 		
-		if(newtype == 0){
+		if(newtype == 0 && numlines > 8){
 			if(Math.random()>.5){
 				// create powerup
 				var newpx = newx + Math.random()*(linew-powerupw)+powerupw/2;
@@ -426,6 +532,12 @@ function drawLines(){
 		tc._x = line._x + linew/2;
 		tc._y = line._y;
 		tcs.push(tc);
+        if(line._ltype == 2){
+            var tc2 = getLineTC();
+            tc2._x = -3;
+            tc2._y = line._y;
+            tcs.push(tc2);
+        }
 
 		i--;
 	}
@@ -470,6 +582,64 @@ function drawChar(){
 	charTC._x = charx;
 	charTC._y = chary;
 
+    if(currp == 2){ // rocket
+        if(charTC._frame<4){
+            charTC.setFrame(5);
+        } else {
+            var newFrame = charTC._frame+1+1;
+            if(newFrame>7){
+                charTC.setFrame(5);
+            } else {
+                charTC.setFrame(newFrame);
+            }
+        }
+    } else {
+        var baseframe = 1;
+        var addon = 0;
+        if(boots > 0){
+            baseframe = 8;
+            addon = 2;
+            if(charspd>=jumpspd+2 && charspd < 2){
+                addon = 0;
+            } else if(charspd>=jumpspd+2){
+                addon = 1;
+            }
+            charTC.setFrame(baseframe + addon);
+            charTC._y-=20;
+
+        } else {
+            if(rr != 0){
+                addon = 2;
+            } else {
+                addon = 0;
+                if(charspd>=jumpspd+2 && charspd < -1){
+                    addon = 1;
+                } else if(charspd>= -1 && charspd < 1){
+                    addon = 2;
+                } else if(charspd >= 1){
+                    addon = 3;
+                }
+                charTC.setFrame(baseframe + addon);
+            }
+            if(addon == 1){
+                charTC._y-=20;
+            }
+            if(addon == 2){
+                charTC._y-=10;
+            }
+            if(addon == 3){
+                charTC._y-=5;
+            }
+        }
+
+    }
+
+    if(currp == 0 || currp == 1){
+        charTC._rot = rr*Math.PI/180;
+    } else {
+        charTC._rot = 0;
+    }
+
 	tcs.push(charTC);
 }
 
@@ -477,6 +647,14 @@ function drawLine(x0,y0,x1,y1){
 }
 
 function drawRect(x,y,w,h){
+}
+
+function drawReplay(){
+    if(pause){
+        document.getElementById("replay").style.opacity = "1";
+        document.getElementById("canvas").style.opacity = "0.5";
+        //tcs.push(replayTC);
+    }
 }
 
 function clearGraphics(){
