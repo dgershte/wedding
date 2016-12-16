@@ -64,13 +64,14 @@
             </div>
         </div>
         <div id="play" class="container">
-            <div id="gameContainer" class="container">
-                <h3>Your score</h3>
-                <div id="score"></div>
+            <div id="gameContainer">
+                <h3 id="score">Score: <span id="scoreval"></span></h3>
+                <h3 id="highscore">Highscore: <span id="highscoreval"></span></h3>
                 <div onclick="reset()" id="replay">Replay?</div>
-                <canvas id="canvas">
-                </canvas>
+                <canvas id="canvas"></canvas>
             </div>
+            <h3>Leaderboard</h3>
+            <table id="table"></table>
         </div>
     </div>
     </body>

@@ -1,13 +1,104 @@
 
+var uidmap = {};
+var leaderboard = {};
+
+function getUIDMap(){
+	uidmap = {};
+	firebase.database().ref('/uidmap/').once('value').then(
+		function(snapshot) {
+		  var uids = snapshot.val();
+		  for(var uid in uids){
+			if(uids.hasOwnProperty(uid)){
+				uidmap[uid] = uids[uid];
+		  }
+		  console.log(uidmap);
+		}
+	});
+}
+
+function Highscore(name, score){
+	this._name = name;
+	this._score = score;
+}
+
+function compareHighscores(hscore0, hscore1){
+	if(hscore0._score > hscore1._score){
+		return -1;
+	}
+	if(hscore0._score < hscore1._score){
+		return 1;
+	}
+	return 0;
+}
+
+function drawLeaderboard(){
+	var highscores = [];
+	for(name in leaderboard){
+		highscores.push(new Highscore(name, leaderboard[name]));
+	}
+	highscores = highscores.sort(compareHighscores);
+
+	var tableBody = document.getElementById("table");
+	tableBody.innerHTML = "";
+
+	for(var i =0; i<highscores.length; i++){
+		var newRow = document.createElement("tr");
+		tableBody.appendChild(newRow);
+		var nameCell = document.createElement("td");
+		nameCell.textContent = highscores[i]._name;
+		var scoreCell = document.createElement("td");
+		scoreCell.textContent = highscores[i]._score;
+
+		newRow.appendChild(nameCell);
+		newRow.appendChild(scoreCell);
+	}
+}
+
+function getLeaderboard(){
+	var listener = firebase.database().ref('/scores/');
+	listener.on('value',
+		function (snapshot) {
+		  var scores = snapshot.val();
+		  for(var name in scores){
+			if(scores.hasOwnProperty(name)){
+				var hname = "";
+				if(uidmap.hasOwnProperty(name)){
+					hname = uidmap[name];
+				} else {
+					hname = name;
+				}
+				leaderboard[hname] = scores[name];
+			}
+		  }
+		  console.log(leaderboard);
+		  drawLeaderboard();
+		});
+}
+
+function getHighscore(){
+	var listener = firebase.database().ref(userhash+'/score/');
+	listener.on('value',
+		function (snapshot) {
+		  var score = snapshot.val();
+		  displayHighscore(score);
+		});
+}
+
+function displayHighscore(highscore){
+	var highscoreElem = document.getElementById("highscoreval");
+	highscoreElem.innerHTML = highscore;
+}
+
 
 function tryLogIn() {
-    var username = $("#username").val();
+    var userid = $("#username").val();
     var password = $("#password").val();
-    var hash = md5(username+password);
+    var hash = md5(userid+password);
     firebase.database().ref('/'+ hash).once('value').then(function(snapshot) {
         var user = snapshot.val();
         if(user) {
-            sessionStorage.setItem('currentUser', hash);
+            sessionStorage.setItem('userhash', hash);
+            sessionStorage.setItem('username', userid);
             logInSucceeded();
         } else {
             logInFailed();
@@ -19,6 +110,7 @@ function logInSucceeded() {
     $("#login").hide();
     $("body").css("overflow","scroll");
     $("#wrapper").css("overflow","scroll");
+    getHighscore();
 }
 
 function logInFailed() {
@@ -26,8 +118,12 @@ function logInFailed() {
 }
 
 function updateScore(score) {
-    firebase.database().ref('/' + currentUser).update({
+    firebase.database().ref('/' + userhash).update({
         score: score,
+    });
+    var userid = username.split(".").join("");
+    firebase.database().ref('/scores').update({
+       [username] : score,
     });
 }
 
@@ -38,10 +134,15 @@ $(document).keypress(function (e) {
 });
 
 $(document).ready(function() {
-    currentUser = sessionStorage.getItem('currentUser');
-    if (currentUser) {
+    userhash = sessionStorage.getItem('userhash');
+    username = sessionStorage.getItem('username');
+    if (userhash) {
         logInSucceeded();
     }
+    
+    getUIDMap();
+    getLeaderboard();
+    
     $("#DateCountdown").TimeCircles({
         "animation": "smooth",
         "bg_width": 0.9,
@@ -208,6 +309,15 @@ function render() {
         tcs[i].render();
         i++;
     }
+    console.log(rects.length);
+    ctx.beginPath();
+    var i = 0;
+    while(i<rects.length){
+        drawRect(rects[i]._x,rects[i]._y,rects[i]._w,rects[i]._h);
+        i++;
+    }
+    ctx.closePath();
+    rects.splice(0, rects.length);
 }
 
 resources.onReady(initXML);

@@ -245,25 +245,33 @@ header {
 }
 
 #gameContainer {
-    height:600px;
-    width:100%;
+    height:650px;
+    width:550px;
     background-color:white;
     display: flex;
     justify-content: center;
+    position:relative;
 }
 
 #score {
-    font-size: 25px;
-    padding-bottom: 25px;
     color: #00a9ff;
+    position:absolute;
+    left:20px;
+}
+
+#highscore {
+    color: #00a9ff;
+    position:absolute;
+    top:40px;
+    left:20px;
 }
 
 #replay {
     position:absolute;
     font-family: "Sweetly Broken";
     font-size: 60px;
-    font-family: "Sweetly Broken";
     opacity:0;
+    top:45%;
 }
 
 .time_circles {

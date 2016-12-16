@@ -1,5 +1,6 @@
 var texturemap = [];
 var tcs = [];
+var rects = [];
 
 (function() {
     var resourceCache = {};
@@ -138,6 +139,13 @@ function Tile(name, x,y,w,h,framex,framey,framew,frameh){
 
 function addTile(name, x, y,w,h,framex,framey,framew,frameh){
     texturemap[name] = new Tile(name, x,y,w,h,framex,framey,framew,frameh);
+}
+
+function Rect(x,y,w,h){
+    this._x = parseFloat(x);
+    this._y = parseFloat(y);
+    this._w = parseFloat(w);
+    this._h = parseFloat(h);
 }
 
 function TileClip(name){

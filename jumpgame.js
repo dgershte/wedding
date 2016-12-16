@@ -37,14 +37,14 @@ var linew = 100;
 var hitline = false;
 
 var powerups = [];
-var powerupw = 10;
-var poweruph = 5;
+var powerupw = 24;
+var poweruph = 10;
 var ptimer = 0;
 var boots = 0;
 
 var currp = -1;
 
-var jumpspd = -12;
+var jumpspd = -13;
 var bootspd = -18;
 
 var left = false;
@@ -83,6 +83,7 @@ function setup(){
     powerups = [];
     numlines = 0;
     tcs = [];
+    rects = [];
 
 	charTC = new TileClip("goat");
 	charTC.setPivot(32,65);
@@ -154,7 +155,7 @@ function getPowerupTC(){
 		return powerupTCs[pIdx-1];
 	} else {
 		var powerupTC = new TileClip("powerup");
-		powerupTC.setPivot(10,35);
+		powerupTC.setPivot(20,35);
 		powerupTCs.push(powerupTC);
 		pIdx++;
 		return powerupTC;
@@ -162,7 +163,7 @@ function getPowerupTC(){
 }
 
 function displayScore(score){
-    var scorediv = document.getElementById("score");
+    var scorediv = document.getElementById("scoreval");
     scorediv.innerHTML = score;
 }
 
@@ -230,6 +231,8 @@ function everyframe(dt){
 	if(chary > screenh + charh*2){
 		if(baseScore != 0){
 			pause = true;
+            //endgame
+            updateScore(score);
             isMouseDown = mouseIsDown;
 		}
 	}
@@ -351,7 +354,7 @@ function calcLineHits(){
 		var line = lines[i];
 		line._y += diffy;
 		
-		if(line._y > screenh){
+		if(line._y > screenh+100){
 			lines.splice(i,1);
 			continue;
 		}
@@ -412,7 +415,7 @@ function calcPowerupHits(){
 		var powerup = powerups[i];
 		powerup._y+=diffy;
 		
-		if(powerup._y>screenh){
+		if(powerup._y>screenh + 100){
 			powerups.splice(i,1);
 			continue;
 		}
@@ -420,9 +423,13 @@ function calcPowerupHits(){
 		if(!hitchar){
 		
 			//overlapx
-			if(powerup._x <= charx+charw/2 && charx-charw/2 <= powerup._x){
+            var xd = powerup.x-charx;
+            if(Math.abs(xd)<charw/2+powerupw/2){
+			//if(powerup._x <= charx+charw/2 && charx-charw/2 <= powerup._x){
 				//overlapy
-				if(chary >= powerup._y-poweruph/2 && chary-charh <= powerup._y-poweruph/2){
+                var yd = powerup.y+poweruph/2 - chary;
+                if(Math.abs(yd)<charh){
+				//if(chary >= powerup._y-poweruph/2 && chary-charh <= powerup._y-poweruph/2){
 					if((powerup._ptype < 2 && charspd >=0) //trampoline
 						|| powerup._ptype >=2){ // jetpack / boots
 						switch(powerup._ptype){
@@ -505,7 +512,7 @@ function createLines(){
 			if(Math.random()>.5){
 				// create powerup
 				var newpx = newx + Math.random()*(linew-powerupw)+powerupw/2;
-				var newpy = lasty;
+				var newpy = lasty - poweruph;
 				var newptype = Math.floor(Math.random()*4);
 				var p_up = new Powerup(newpx,newpy,newptype);
 				powerups.push(p_up);
@@ -561,7 +568,7 @@ function drawPowerups(){
 		tc._x = powerup._x;
 		tc._y = powerup._y;
 		tcs.push(tc);
-		//drawRect(powerup._x-powerupw/2,powerup._y-poweruph,powerupw,poweruph);
+		rects.push(new Rect(powerup._x-powerupw/2,powerup._y,powerupw,poweruph));
 		i++;
 	}
 }
@@ -647,6 +654,8 @@ function drawLine(x0,y0,x1,y1){
 }
 
 function drawRect(x,y,w,h){
+    ctx.rect(x,y,w,h);
+    ctx.stroke();
 }
 
 function drawReplay(){
