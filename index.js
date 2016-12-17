@@ -99,6 +99,8 @@ function tryLogIn() {
         if(user) {
             sessionStorage.setItem('userhash', hash);
             sessionStorage.setItem('username', userid);
+            username = userid;
+            userhash = hash;
             logInSucceeded();
         } else {
             logInFailed();
@@ -123,7 +125,7 @@ function updateScore(score) {
     });
     var userid = username.split(".").join("");
     firebase.database().ref('/scores').update({
-       [username] : score,
+       [userid] : score,
     });
 }
 
@@ -134,9 +136,9 @@ $(document).keypress(function (e) {
 });
 
 $(document).ready(function() {
-    userhash = sessionStorage.getItem('userhash');
-    username = sessionStorage.getItem('username');
-    if (userhash) {
+    if (sessionStorage.getItem('userhash')) {
+        userhash = sessionStorage.getItem('userhash');
+        username = sessionStorage.getItem('username');
         logInSucceeded();
     }
     
@@ -303,13 +305,13 @@ function update(dt) {
 
 function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log("render");
+    //console.log("render");
     var i = 0;
     while(i<tcs.length){
         tcs[i].render();
         i++;
     }
-    console.log(rects.length);
+    //console.log(rects.length);
     ctx.beginPath();
     var i = 0;
     while(i<rects.length){

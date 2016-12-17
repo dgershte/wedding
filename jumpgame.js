@@ -37,7 +37,7 @@ var linew = 100;
 var hitline = false;
 
 var powerups = [];
-var powerupw = 24;
+var powerupw = 30;
 var poweruph = 10;
 var ptimer = 0;
 var boots = 0;
@@ -64,8 +64,14 @@ var replayTC;
 
 function setup(){
 
-    document.getElementById("replay").style.opacity = "0";
-    document.getElementById("canvas").style.opacity = "1";
+    var replayDiv = document.getElementById("replay");
+    if (replayDiv) {
+        replayDiv.style.opacity = "0";
+    }
+    var canvas = document.getElementById("canvas");
+    if (canvas) {
+        canvas.style.opacity = "1";
+    }
 
 	maxCharY = 0;
 	maxScore = 0;
@@ -155,7 +161,6 @@ function getPowerupTC(){
 		return powerupTCs[pIdx-1];
 	} else {
 		var powerupTC = new TileClip("powerup");
-		powerupTC.setPivot(20,35);
 		powerupTCs.push(powerupTC);
 		pIdx++;
 		return powerupTC;
@@ -400,6 +405,30 @@ function calcLineHits(){
 	}
 }
 
+function scalarOverlap(min0,max0,min1,max1){
+    var dist = (max0<max1?max0:max1) - (min0>min1?min0:min1);
+    var total = max0-min0 + max1-min1;
+    return (dist<0.0001 || dist>total)?-1:dist;
+}
+
+//tests..good
+/*
+console.log(scalarOverlap(10,20,30,40));
+console.log(scalarOverlap(10,30,20,40));
+console.log(scalarOverlap(30,40,10,30));
+console.log(scalarOverlap(20,40,10,30));
+*/
+
+function aabb(rect0, rect1){
+    var overlap_x = scalarOverlap(rect0._x, rect0._x+rect0._w, rect1._x, rect1._x+rect1._w);
+    if(overlap_x == -1) return false;
+
+    var overlap_y = scalarOverlap(rect0._y, rect0._y+rect0._h, rect1._y, rect1._y+rect1._h);
+    if(overlap_y == -1) return false;
+
+    return true;
+}
+
 function calcPowerupHits(){
 	var i = 0;
 					
@@ -421,45 +450,39 @@ function calcPowerupHits(){
 		}
 
 		if(!hitchar){
-		
-			//overlapx
-            var xd = powerup.x-charx;
-            if(Math.abs(xd)<charw/2+powerupw/2){
-			//if(powerup._x <= charx+charw/2 && charx-charw/2 <= powerup._x){
-				//overlapy
-                var yd = powerup.y+poweruph/2 - chary;
-                if(Math.abs(yd)<charh){
+            var charRect = new Rect(charx-charw/2, chary-charh, charw, charh);
+            var powerupRect = new Rect(powerup._x-powerupw/2,powerup._y-poweruph/2,powerupw, poweruph);
+		    if(aabb(charRect, powerupRect)){
 				//if(chary >= powerup._y-poweruph/2 && chary-charh <= powerup._y-poweruph/2){
-					if((powerup._ptype < 2 && charspd >=0) //trampoline
-						|| powerup._ptype >=2){ // jetpack / boots
-						switch(powerup._ptype){
-							case 0:
-								chary = powerup._y;
-								jump(1.75);
-								currp = 0;
-								break;
-							case 1:
-								chary = powerup._y;
-								jump(2.5);
-								currp = 1;
-								break;
-							case 2://rocket
-								if(charspd>0){
-									charspd = 0;
-								}
-								boots = 0;
-								currp = 2;
-								break;
-							case 3:
-								setBoots();
-								break;
-						}
-						powerups.splice(i,1);
-						hitchar = true;
-						continue;
-					}
-				}
-			}
+                if((powerup._ptype < 2 && charspd >=0) //trampoline
+                    || powerup._ptype >=2){ // jetpack / boots
+                    switch(powerup._ptype){
+                        case 0:
+                            chary = powerup._y;
+                            jump(1.75);
+                            currp = 0;
+                            break;
+                        case 1:
+                            chary = powerup._y;
+                            jump(2.5);
+                            currp = 1;
+                            break;
+                        case 2://rocket
+                            if(charspd>0){
+                                charspd = 0;
+                            }
+                            boots = 0;
+                            currp = 2;
+                            break;
+                        case 3:
+                            setBoots();
+                            break;
+                    }
+                    powerups.splice(i,1);
+                    hitchar = true;
+                    continue;
+                }
+            }
 		}
 
 		i++;
@@ -556,14 +579,16 @@ function drawPowerups(){
 		var powerup = powerups[i];
 
 		var tc = getPowerupTC();
+        tc.setPivot(20,35);
 		if(powerup._ptype==0){
 			tc.setFrame(3);
 		} else if(powerup._ptype == 1){
 			tc.setFrame(4);
-		} else if(powerup._ptype == 2){
+		} else if(powerup._ptype == 2){ //jetpack
 			tc.setFrame(2);
-		} else if(powerup._ptype == 3){
+		} else if(powerup._ptype == 3){ // boots
 			tc.setFrame(1);
+            tc.setPivot(30,35);
 		}
 		tc._x = powerup._x;
 		tc._y = powerup._y;
@@ -585,6 +610,8 @@ function drawChar(){
 	drawLine(p1.x,p1.y,p2.x,p2.y);
 	drawLine(p2.x,p2.y,p3.x,p3.y);
 	drawLine(p3.x,p3.y,p0.x,p0.y);
+
+    rects.push(new Rect(charx - charw/2, chary-charh, charw, charh));
 
 	charTC._x = charx;
 	charTC._y = chary;
@@ -654,6 +681,7 @@ function drawLine(x0,y0,x1,y1){
 }
 
 function drawRect(x,y,w,h){
+    return; // remove for testing
     ctx.rect(x,y,w,h);
     ctx.stroke();
 }
@@ -661,7 +689,7 @@ function drawRect(x,y,w,h){
 function drawReplay(){
     if(pause){
         document.getElementById("replay").style.opacity = "1";
-        document.getElementById("canvas").style.opacity = "0.5";
+        document.getElementById("canvas").style.opacity = "0.2";
         //tcs.push(replayTC);
     }
 }
