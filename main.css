@@ -264,17 +264,9 @@ header {
     position:relative;
 }
 
-#score {
+#score, #highscore {
     color: #00a9ff;
-    position:absolute;
-    left:20px;
-}
-
-#highscore {
-    color: #00a9ff;
-    position:absolute;
-    top:40px;
-    left:20px;
+    margin:0;
 }
 
 #replay {
