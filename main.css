@@ -258,11 +258,21 @@ header {
 #gameContainer {
     background-color:white;
     padding-top:50px;
+    margin:auto;
 }
 
 #score, #highscore {
     color: #00a9ff;
     margin:5px;
+    text-align:center;
+}
+
+#leaderboard {
+    text-align:center;
+}
+
+#table {
+    margin:auto;
 }
 
 #gradient {
