@@ -305,10 +305,11 @@ td {
     position:absolute;
     font-family: "Sweetly Broken";
     font-size: 60px;
-    opacity:0;
+    display:none;
     top:45%;
     width:100%;
     text-align:center;
+    overflow:visible;
 }
 
 .time_circles {

@@ -66,7 +66,7 @@ function setup(){
 
     var replayDiv = document.getElementById("replay");
     if (replayDiv) {
-        replayDiv.style.opacity = "0";
+        replayDiv.style.display = "none";
     }
     var canvas = document.getElementById("canvas");
     if (canvas) {
@@ -696,7 +696,7 @@ function drawRect(x,y,w,h){
 
 function drawReplay(){
     if(pause){
-        document.getElementById("replay").style.opacity = "1";
+        document.getElementById("replay").style.display = "block";
         document.getElementById("canvas").style.opacity = "0.2";
         //tcs.push(replayTC);
     }
