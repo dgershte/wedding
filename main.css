@@ -35,7 +35,7 @@ body {
 }
 
 #play {
-    height:100%;
+    min-height:100%;
     justify-content:center;
     padding:50px;
 }
@@ -58,7 +58,7 @@ body {
 .black-gradient {
     background: -moz-linear-gradient(top, rgba(0,0,0,0) 79%, rgba(0,0,0,0.01) 80%, rgba(0,0,0,0.6) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, rgba(0,0,0,0) 79%,rgba(0,0,0,0.01) 80%,rgba(0,0,0,0.6) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 79%,rgba(0,0,0,0.01) 80%,rgba(0,0,0,0.6) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    #background: linear-gradient(to bottom, rgba(0,0,0,0) 79%,rgba(0,0,0,0.01) 80%,rgba(0,0,0,0.6) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     width:100%;
     height:100%;
 }
@@ -66,7 +66,7 @@ body {
 .white-gradient {
     background: -moz-linear-gradient(top, rgba(255,255,255,0) 25%, rgba(255,255,255,1) 69%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, rgba(255,255,255,0) 25%,rgba(255,255,255,1) 69%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(255,255,255,0) 25%,rgba(255,255,255,1) 69%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    #background: linear-gradient(to bottom, rgba(255,255,255,0) 25%,rgba(255,255,255,1) 69%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     height:400px;
     width:100%;
 }
@@ -90,7 +90,7 @@ h2 {
 }
 
 #rsvp {
-    height:100%;
+    height:120%;
     justify-content:center;
 }
 
@@ -256,17 +256,37 @@ header {
 }
 
 #gameContainer {
-    height:650px;
-    width:550px;
     background-color:white;
-    display: flex;
-    justify-content: center;
-    position:relative;
+    padding-top:50px;
 }
 
 #score, #highscore {
     color: #00a9ff;
-    margin:0;
+    margin:5px;
+}
+
+#gradient {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+20,ffffff+80,ffffff+100,ffffff+100&1+0,0.01+20,0.01+80,1+100 */
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.01) 20%, rgba(255,255,255,0.01) 80%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.01) 20%,rgba(255,255,255,0.01) 80%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.01) 20%,rgba(255,255,255,0.01) 80%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    pointer-events: none;
+}
+
+#canvas {
+    height:auto;
+}
+
+.scoreCell {
+    text-align:right;
+}
+
+td {
+    padding:5px;
 }
 
 #replay {
@@ -274,7 +294,9 @@ header {
     font-family: "Sweetly Broken";
     font-size: 60px;
     opacity:0;
-    top:45%;
+    top:365%;
+    width:100%;
+    text-align:center;
 }
 
 .time_circles {
@@ -333,5 +355,12 @@ header {
     }
     body {
         overflow:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    #rsvp p {
+        width:80%;
+    }
+    #rsvp {
+        //height:120%;
     }
 }

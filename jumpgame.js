@@ -233,7 +233,7 @@ function everyframe(dt){
 		}
 	}
 	
-	if(chary > screenh + charh*2){
+	if(chary > screenh + charh){
 		if(baseScore != 0){
 			pause = true;
             //endgame
@@ -304,7 +304,8 @@ function calcInputs(){
 
 		var targetX = 0;
 		if(mouseIsDown){
-			locX = canX[0];
+            console.log(canvas.style.width.split("px").join("") + " "+canvas.width);
+			locX = canX[0]/canvas.style.width.split("px")[0]*550;
 			if(locX < charx){
 				left = true;
 				right = false;
@@ -536,7 +537,14 @@ function createLines(){
 				// create powerup
 				var newpx = newx + Math.random()*(linew-powerupw)+powerupw/2;
 				var newpy = lasty - poweruph;
-				var newptype = Math.floor(Math.random()*4);
+				var newptype = 0;
+                if(Math.random()>.925){
+                    newptype = 2; // jetpack
+                } else if(Math.random()>.8){
+                    newptype = 3; // boots
+                } else {
+                newptype = Math.floor(Math.random()*2); // trampolines
+                }
 				var p_up = new Powerup(newpx,newpy,newptype);
 				powerups.push(p_up);
 			}
