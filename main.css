@@ -6,9 +6,7 @@ html, body {
 
 body {
     font-family: "Poiret One";
-    overflow:hidden;
 }
-
 
 .container {
     display: flex;
@@ -32,6 +30,7 @@ body {
     -o-background-size: cover;
     background-size: cover;
     height:100%;
+    display:none;
 }
 
 #play {
@@ -39,6 +38,7 @@ body {
     justify-content:center;
     padding:50px;
     position:relative;
+    display:none;
 }
 
 #logo {
@@ -93,6 +93,7 @@ h2 {
 #rsvp {
     height:120%;
     justify-content:center;
+    display:none;
 }
 
 p {
@@ -310,6 +311,7 @@ td {
     width:100%;
     text-align:center;
     overflow:visible;
+    padding:5px 0;
 }
 
 .time_circles {
@@ -360,12 +362,12 @@ td {
         height:90px;
         width:360px;
     }
-    #wrapper {
+    /*#wrapper {
         overflow:hidden;
         overflow-x:hidden !important;
         height:100%;
         position:relative;
-    }
+    }*/
     body {
         overflow:scroll;
         -webkit-overflow-scrolling: touch;

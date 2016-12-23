@@ -31,11 +31,10 @@
         </script>
     </head>
     <body>
-    <div id="wrapper">
         <div id="login">
             <div id="error">The username and password do not match</div>
             <br/>
-            <input type="text" id="username" name="username" placeholder="Username"/>
+            <input type="text" id="username" onkeyup="return forceLower(this)" name="username" placeholder="Username"/>
             <br/>
             <input type="password" id="password" name="password" placeholder="Password"/>
             <br/>
@@ -91,7 +90,6 @@
             <h3 id="leaderboard">Leaderboard</h3>
             <table id="table"></table>
         </div>
-    </div>
         <script src="spritesheet.js"></script>
         <script src="jumpgame.js"></script>
         <script type="text/javascript" src="index.js"></script>

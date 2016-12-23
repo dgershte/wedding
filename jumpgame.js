@@ -229,7 +229,7 @@ function everyframe(dt){
 	if(chary > screenh){
 		if(baseScore == 0){
 			chary = screenh;
-			jump();
+			jump(1);
 		}
 	}
 	
@@ -247,7 +247,7 @@ function everyframe(dt){
 	calcLineHits();
 	calcPowerupHits();
 	
-	if(hitline) { jump(); }
+	if(hitline) { jump(1); }
 
     drawCanvas();
 }
@@ -304,7 +304,7 @@ function calcInputs(){
 
 		var targetX = 0;
 		if(mouseIsDown){
-            console.log(canvas.style.width.split("px").join("") + " "+canvas.width);
+            //console.log(canvas.style.width.split("px").join("") + " "+canvas.width);
 			locX = canX[0]/canvas.style.width.split("px")[0]*550;
 			if(locX < charx){
 				left = true;
@@ -490,7 +490,7 @@ function calcPowerupHits(){
 	}
 }
 
-function jump(mult = 1){
+function jump(mult){
 	if(boots == 0){
 		charspd = jumpspd*mult;
 	} else {
