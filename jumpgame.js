@@ -181,6 +181,10 @@ function reset(){
     setup();
 }
 
+function resetTCs() {
+    mIdx = cIdx = tIdx = bIdx = pIdx = 0;
+}
+
 function everyframe(dt){
     if(keySpace){
         reset();
@@ -197,6 +201,8 @@ function everyframe(dt){
         return;
     }
 	
+    resetTCs();
+
 	// Calc shift amount
 	diffy = 0;
 	if(chary < screenh/2){

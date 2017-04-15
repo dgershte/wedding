@@ -38,11 +38,11 @@ function drawLeaderboard(){
 	}
 	highscores = highscores.sort(compareHighscores);
 
-	var tableBody = document.getElementById("table");
+	var tableBody = document.getElementById("leaderboardTable");
 	tableBody.innerHTML = "";
 
 	for(var i =0; i<highscores.length; i++){
-		var newRow = document.createElement("tr");
+ 		var newRow = document.createElement("tr");
 		tableBody.appendChild(newRow);
 		var numCell = document.createElement("td");
         numCell.textContent = i + 1;
@@ -56,6 +56,98 @@ function drawLeaderboard(){
 		newRow.appendChild(nameCell);
 		newRow.appendChild(scoreCell);
 	}
+}
+
+function drawRSVP() {
+    var tableBody = document.getElementById("rsvpTable");
+    tableBody.innerHTML = "";
+
+    var plusOne;
+    Object.keys(rsvpObj).forEach(function(key,index) {
+        plusOne = false;
+        var newRow = document.createElement("tr");
+        tableBody.appendChild(newRow);
+        var nameCell = document.createElement("td");
+        if (key === "Guest") plusOne = true;
+        if (plusOne) {
+            var input = document.createElement("input");
+            input.id = "plusOneInput";
+            input.placeholder = "Enter guest's full name";
+            input.value = rsvpObj[key]["name"] ? rsvpObj[key]["name"] : "Guest";
+            nameCell.appendChild(input);
+        } else {
+            nameCell.textContent = key.split(/(?=[A-Z])/).join(" ");
+        }
+        var checkCell = document.createElement("td");
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.id = key;
+        checkbox.checked = rsvpObj[key]["attending"];
+        if (plusOne) {
+            checkbox.onclick = plusOneClicked;
+            nameCell.id = "plusOne";
+        }
+
+        var form = document.createElement("form");
+//        form.appendChild("<div class='section'><input type='radio' id='beef' name='selector><label for='beef'><img src='beef.png'/></label><div class='check'></div></div>");
+
+        var input2 = document.createElement("input");
+        input2.type = "radio";
+        input2.name = "menu";
+        input2.value = "vegeterian";
+        input2.id = "vegeterian";
+        var carrotImg = document.createElement("img");
+        carrotImg.src = "carrot.png";
+        var label2 = document.createElement("label");
+        label2.htmlFor = "vegetarian";
+        label2.appendChild(carrotImg); 
+        var check2 = document.createElement("div");
+        check2.className = "check";
+
+        var section1 = document.createElement("div");
+        section1.className = "section";
+        section1.appendChild(input1);
+        section1.appendChild(label1);
+        section1.appendChild(check1);
+
+        var menu = rsvpObj[key]["menu"];
+        if (menu == "beef") {
+            input1.checked = true;
+        } else if (menu == "veg") {
+            input2.checked = true;
+        }
+
+        form.appendChild(input1);
+        form.appendChild(label1);
+        form.appendChild(check1);
+        form.appendChild(input2);
+        form.appendChild(label2);
+        form.appendChild(check2);
+        var formCell = document.createElement("td");
+        formCell.appendChild(form);
+        
+        checkCell.appendChild(checkbox);
+        newRow.appendChild(checkCell);
+        newRow.appendChild(nameCell);
+        if (window.mobilecheck()) {
+            var menuRow = document.createElement("tr");
+            var empty = document.createElement("td");
+            menuRow.appendChild(empty);
+            menuRow.appendChild(formCell);
+            tableBody.appendChild(menuRow);
+        } else {
+            newRow.appendChild(formCell);
+        }
+    });
+}
+
+function plusOneClicked() {
+    if (this.checked) {
+        $("#plusOneInput").val("").focus();
+    } else {
+        $("#plusOneInput").val("Guest");
+        return;
+    }
 }
 
 function getLeaderboard(){
@@ -112,12 +204,21 @@ function tryLogIn() {
     });
 }
 
+function getRSVP() {
+    firebase.database().ref('/'+userhash+'/rsvp').once('value').then(function(snapshot) {
+        rsvpObj = snapshot.val();
+        drawRSVP();
+    });
+}
+
 function logInSucceeded() {
     $("#login").hide();
-    $("#rsvp").css("display","flex");
+    $("#details").css("display","flex");
+    $("#rsvp").css("display","block");
     $("#proposal").css("display","block");
     $("#play").css("display","block");
     getHighscore();
+    getRSVP();
 }
 
 function logInFailed() {
@@ -224,11 +325,68 @@ $(document).ready(function() {
         $('#play').scrollView();
     });
 
+    $("#submitRSVP").on("click touchstart", function() {
+
+        var guest = $("#plusOneInput").val();
+        if (guest) {
+        }
+        updateRSVPObject();
+
+        firebase.database().ref('/' + userhash).update({
+            rsvp: rsvpObj,
+        });
+        swal({
+            title: "Thank You!", 
+            text: "We've received your RSVP! <br><br> Need to change something? Please do so by <b>August 1st</b> :)", 
+            type: "success",
+            html: true
+        });
+    });
+    $('.your-class').slick({
+        centerMode: false,
+        slidesToShow: 3,
+        variableWidth: true,
+        infinite:false,
+        dots:true,
+        prevArrow:'hidden',
+        nextArrow:'hidden',
+/*        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1
+              }
+            }
+          ]*/
+    });
 
 	keyLeft = false;
 	keyRight = false;
     keySpace = false;
+    
 });
+
+function updateRSVPObject() {
+    var table = document.getElementById("rsvpTable");
+    Object.keys(rsvpObj).forEach(function(key,index) {
+        var val = key == "Guest" ? $("#plusOneInput").val() : $("#"+key).is(':checked');
+        if (!val || val == "Guest") val = false;
+        rsvpObj[key] = val;
+    });
+
+}
 
 function resizeCanvas(){
     var new_width = Math.min(550,window.innerWidth);

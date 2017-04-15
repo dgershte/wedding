@@ -8,6 +8,10 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="TimeCircles.js"></script>
         <script type="text/javascript" src="md5.min.js"></script>
+        <script src="dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
         <script>
@@ -40,14 +44,14 @@
             <br/>
             <button id="sign-in" name="signin">Sign In</button>
         </div>
-        <div id="home" class="container">
+        <div id="home" class="parallax">
             <div id="menu">
                 <ul>
                     <li class="hide" onClick="$('#rsvp').scrollView();"><h3>RSVP</h3></li>
                     <li class="hide">·</li>
-                    <li class="hide" onClick="$('#proposal').scrollView();"><h3>Proposal</h3></li>
+                    <li class="hide" onClick="$('#proposal-title').scrollView();"><h3>Proposal</h3></li>
                     <li class="hide">·</li>
-                    <li onClick="$('#home').scrollView();"><div id="logo">Danny & Dalya</div></li>
+                    <li onClick="$('#home').scrollView();"><h3>Danny & Dalya</h3></li>
                     <li class="hide">·</li>
                     <li class="hide" onclick="$('#play').scrollView();"><h3>Play</h3></li>
                     <li class="hide">·</li>
@@ -58,28 +62,68 @@
                 <div id="DateCountdown" data-date="2017-09-08 16:00:00"></div>
             </div>
         </div>
-        <div id="rsvp" class="container">
-            <h2>RSVP</h2>
-            <h3>Coming Soon...</h3>
+        <div id="details" class="container">
+            <h2>The Wedding</h2>
             <p>We are happy to announce our wedding date, and hope that you will be able to join us!
             </br>
             </br>
-            <b>Please mark <span class="highlight">September 08/17</span> in your calendars!</b>
+            Please mark 
+            </br>
+            <span class="highlight">September 8th, 2017</span>
+            </br>
+            in your calendars!</b>
             </br></br>
-            Further details and formal invitations will be mailed closer to the wedding date.
+            The ceremony and reception will take place at
+            </br>
+            <span class="highlight">LE BELVEDERE</span>
+            </br>
+            40 Chemin Des Sentiers, Wakefield, Quebec
             <br/>
-            <br/>
-            In the meantime, try your hand at our <span id="playscroll" class="highlight"><b>goatastic pre-wedding game!</b></span>
-            </br></br>
-            If you believe that you will require accommodations for the night, please let us know! We will be reserving a set of hotel rooms for the occasion. If you are uncertain, you can still confirm with us closer to the date.
             </p>
         </div>
+        <div id="rsvp" class="parallax">
+            <h1>Reply</h1>
+            <div id="rsvpContainer">
+                <table id="rsvpTable"></table>
+                <p><img src="beef.png"/> - Grilled filet mignon with a Madeira Peppercorn sauce</br>
+                <img src="carrot.png"/> - Asparagus and wild mushroom risotto with fresh herbs and roasted garlic tomato sauce</p>
+                <div id="submitRSVP">submit</div>
+            </div>
+        </div>
+        <div id="accommodation" class="container">
+            <h2>Places to stay</h2>
+            For our out of town guests, the following options are available:
+            <br><br>
+            <span class="highlight"><a href="http://lebelvedere.ca/grand">The Wakefield Grand</a></span>
+            <p>This is a cottage-style hotel 10 minutes away from Le Belvedere with 8 rooms, accommodating up to 28 guests.
+            Includes Complimentary shuttle service to and from Le Belvedere and continental breakfast.</p>
+            Cost: 90-100 per guest
+        </div>
         <div id="proposal">
-            <h2 id="proposal-title">The Proposal</h2>
             <div id="slideshow">
+                <div class="your-class">
+                    <div id="img0"><img src="img0.JPG"/><span class="slick-span">It started with a business trip to Zurich</span></div>
+                    <div id="img1"><img src="img1.JPG"/><span class="slick-span">I just grabbed the last automatic. Hop in!</span></div>
+                    <div id="img2"><img src="img2.JPG"/><span class="slick-span">...Uhh where are we going?</span></div>
+                    <div id="img3"><img src="img3.JPG"/><span class="slick-span">Don't worry about it!</span></div>
+                    <div id="img4"><img src="img4.JPG"/><span class="slick-span">Can you believe I landed this place on HotelTonight?</span></div>
+                    <div id="img5"><img src="img5.JPG"/><span class="slick-span">THIS PLACE?!</span></div>
+                    <div id="img6"><img src="img6.JPG"/><span class="slick-span">Oh btw we're hiking tomo at 7 -WHAT?- Smile for the camera!</span></div>
+                    <div id="img7"><img src="img7.JPG"/><span class="slick-span">Whew made it on the first train!</span></div>
+                    <div id="img8"><img src="img8.JPG"/><span class="slick-span">Yeah, the first and only tourists...</span></div>
+                    <div id="img9"><img src="img9.JPG"/><span class="slick-span">Umm, umm- Look! Goats!</span></div>
+                    <div id="img10"><img src="img10.JPG"/><span class="slick-span">Dal can you give me your camera?- BUT GOATS</span></div>
+                    <div id="img11"><img src="img11.JPG"/><span class="slick-span">Dal, please?- This better be important...</span></div>
+                    <div id="img12"><img src="img12.JPG"/><span class="slick-span">POP</span></div>
+                    <div id="img13"><img src="img13.JPG"/><span class="slick-span">(O_O)</span></div>
+                    <div id="img14"><img src="img14.JPG"/><span class="slick-span"></span></div>
+                    <div id="img15"><img src="img15.JPG"/><span class="slick-span"></span></div>
+                    <div id="img16"><img src="img16.JPG"/><span class="slick-span"></span></div>
+                </div>
             </div>
         </div>
         <div id="play">
+            <h2 id="play-title">goat game</h2>
             <h3 id="score">Score: <span id="scoreval"></span></h3>
             <h3 id="highscore">Highscore: <span id="highscoreval"></span></h3>
             <div id="gameContainer">
@@ -88,10 +132,11 @@
                 <div onclick="reset()" id="replay">Replay?</div>
             </div>
             <h3 id="leaderboard">Leaderboard</h3>
-            <table id="table"></table>
+            <table id="leaderboardTable"></table>
         </div>
         <script src="spritesheet.js"></script>
         <script src="jumpgame.js"></script>
+        <script type="text/javascript" src="slick/slick.min.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>
 </html>
