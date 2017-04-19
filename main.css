@@ -96,7 +96,8 @@ h2 {
     font-weight: 400;
     font-style: normal;
     //color:rgba(221,218,218,1);
-    color:rgba(196, 112, 138, 0.44);
+    //color:rgba(196, 112, 138, 0.44);
+    color:#ad1e4a;
     text-align:center;
 }
 
@@ -117,7 +118,7 @@ h1 {
     padding: 0 0 100px;
 }
 
-#rsvpContainer label{
+/*#rsvpContainer label{
   display: block;
   position: relative;
   padding: 25px 25px 25px 80px;
@@ -126,11 +127,17 @@ h1 {
   z-index: 9;
   cursor: pointer;
   -webkit-transition: all 0.25s linear;
+}*/
+
+#rsvpList label {
+    width:200px;
+    display:inline-block;
+    text-align:left;
 }
 
 input[type="radio"],
 input[type="checkbox"]{
-  display: none;
+//  display: none;
 }
 
 .check{
@@ -173,7 +180,7 @@ input[type=radio]:checked ~ .check::before{
 #rsvpContainer {
     width: 80%;
     margin: auto;
-    background: rgba(250,250,250,0.6);
+    background: rgba(250,250,250,0.85);
     padding: 50px;
     box-sizing: border-box;
     border:1px solid white;
@@ -188,10 +195,13 @@ input[type=radio]:checked ~ .check::before{
 }
 
 #submitRSVP {
-    padding: 10px 15px;
-    border: 1px solid rgb(187, 187, 187);
-    border-radius: 5px;
     transition:0.5s;
+    padding: 10px 15px;
+    width: 200px;
+    margin: 20px auto;
+    border: 1px solid #d4d4d4;
+    background-color: white;
+    text-align: center;
 }
 
 #plusOneInput {
@@ -199,17 +209,17 @@ input[type=radio]:checked ~ .check::before{
     text-align:left;
 }
 
-#plusOneInput::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+#guest::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color:grey;
     text-align:left;
 }
-#plusOneInput::-moz-placeholder { /* Firefox 19+ */
+#guest::-moz-placeholder { /* Firefox 19+ */
     color:grey;
     text-align:left;
 }
 
 #submitRSVP:hover {
-    background-color:#00a9ff;
+    background-color:#ad1e4a;
     color:white;
     cursor:pointer;
 }
@@ -217,7 +227,7 @@ input[type=radio]:checked ~ .check::before{
 p {
     width: 70%;
     text-align: center;
-    margin:auto;
+    margin:20px auto;
 }
 
 .sweet-alert h2{
@@ -267,18 +277,19 @@ ul {
     list-style-type: none;
     margin: auto;
     padding: 0 40px;
-    display: flex;
     box-sizing: border-box;
     width: 100%;
-    height: 50px;
     align-items: center;
     justify-content: space-around;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    text-align:center;
 }
 
 #menu ul {
     background-color: white;
+    display: flex;
+    height: 50px;
 }
 
 .secondary-header ul{
@@ -290,7 +301,7 @@ ul {
     position:fixed;
 }
 
-li {
+#menu li {
     text-align:center;
 }
 
@@ -310,11 +321,20 @@ li {
     font-size: 20px;
 }
 
-#login input {
-    width:200px;
+input {
+    letter-spacing: 0.1em;
+    font-size: 16px;
+    font-family: champagner;
+    font-weight: 400;
+    font-style: normal;
+    border: 0;
+    box-sizing:border-box;
+    background-color: transparent;
+    font-size:16px;
 }
 
-input {
+#login input {
+    width:200px;
     line-height: 2;
     letter-spacing: 0.1em;
     font-size: 16px;
@@ -336,6 +356,15 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+
+input[type="textbox"] {
+    width:200px;
+}
+
+input[type="radio"] {
+    margin-left:40px;
+}
+
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: black;

@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danny & Dalya</title>
+
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA819BeXc4RCTwMOsqRdD6N8Vcr9oSNRS0",
+                authDomain: "wedding-ace2b.firebaseapp.com",
+                databaseURL: "https://wedding-ace2b.firebaseio.com",
+                storageBucket: "wedding-ace2b.appspot.com",
+                messagingSenderId: "71101751903"
+            };
+            firebase.initializeApp(config);
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-43999281-5', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+    </head>
+    <body>
+        <table id="rsvpTable"></table>
+        <script>
+            var uids = [
+            "3a72c39b2414b67fb18447c876bea9d1",
+            "c4f43afab9e194f0dd7072582e396600",
+            "f387dd0e5993229246decd6e15f44e12",
+            "89f1976e334d82886c797457b5d14101",
+            "f227e47e62060f409a1ad46e4cedca1e",
+            "cf6324a216059fbd7538a03a9092a350",
+            "4c964872639c57b8803503472a378209",
+            "21e2abe3895512323e590269aeda784e",
+            "7d27afde255aed25f0173e0311ddae58",
+            "658a13d3d3b4a7ff0b8f848bc308e52b",
+            "e5c26c387325855b93e68e3595a96f4d",
+            "85fefe8dcf43970a5c503828a6c48203",
+            "c1ed3fe0fa46c9f85b4e545f3b867fd0",
+            "4dca49e11ce1608362c947ec827bc2d5",
+            "dbe16d69f9159545f4eb05fcda0e4d6c",
+            "a1b9b55513008753f2833ea1d1b80d3c",
+            "518999909c902ac1911221b0ab92efca",
+            "99c496a591f9e370d1a1fdcf6de85e84",
+            "303c01d4768dd8b9790afa4d14667c86",
+            "d2b3920af771c56cd06ca1c3ea27efa6",
+            "1398cea3017c8c92cbf30d034ce89a4c",
+            "bb292e7dffcd7aee894385b6e819157c",
+            "5ba42564b6bf2c6d8b383d8f71cb1a10",
+            "36bfda6aa4d3a919696bb03090794c06",
+            "2f6f96b976da2f393a47fbb6c970ab04",
+            "e242a533b142b2203c32405e30999247",
+            "941e11ac80f89a5215a24629c978d714",
+            "e69f4bc3cb7eb51a247c16bef9f15223",
+            "bb863d284fcd8837bc4489e7e9fa2a84",
+            "06410c251f7043e97100826fb6824107",
+            "aeddeabc7979e55ad62a7e2477d57a0c",
+            "e582ab3bbcbb8576e941eecc3abf8333",
+            "7df7bec48bcb5733eb2daf80cc62f97c",
+            "b98087b0cd61eae6c500249d4f3f843f",
+            "d6200f909aed9aaffe597e691b491d17",
+            "721b6d3e953e0989777acb1b070a1210",
+            "28560a660bf0c8c92afd305402265412",
+            "aa85e32eeb960cf73ac8dbf855643da7",
+            "8ffa3bf3751a99410b749f960b68313f",
+            "f60c282552fa2a6574db6ee38bf355e0",
+            "83e07587651634c4d1295f5de1c310ca",
+            "da52f8d144d57b835740bf964cdb1784",
+            "ce16e57f5339bede642ad06782d10524",
+            "69b1ee868bf763b70aea76b8b5b65b40",
+            "937212792eb2203a93bbaee8e9b7bd2f",
+            "a2b56a9a8d0d2c40d36c88f66c1f1139",
+            "c58acc7bacf3cdcca6dc353475efd2e0"]
+            RSVP = {};
+
+            var difiniteNo = ["IanTao",
+                              "ChelseaCrocker",
+ "DusanZelembaba","StephClegg"];
+            var i = 0;
+            for(uid in uids) {
+                firebase.database().ref('/' + uids[uid] + '/rsvp').once('value').then(
+                    function(snapshot) {
+                        i++;
+                        var guests = snapshot.val();
+                        for (var key in guests) {
+                           if (guests.hasOwnProperty(key)) {
+                                if(key == "Guest") {
+                                    //var guestName = guests[key]["name"];
+                                    RSVP["guest" + i] = guests[key];
+                                } else {
+                                    RSVP[key] = guests[key];
+                                }
+                           }
+                        }
+                        if (i == uids.length - 1) {
+                            drawTable();
+                        }
+                    });
+            }
+
+
+            function drawTable() {
+                var i = 1;
+                var table = document.getElementById("rsvpTable");
+                table.innerHTML = "";
+                for(var key in RSVP) {
+                    if (RSVP.hasOwnProperty(key)) {
+                        var newRow = document.createElement("tr");
+                        table.appendChild(newRow);
+                        var numCell = document.createElement("td");
+                        numCell.textContent = i;
+                        var nameCell = document.createElement("td");
+                        nameCell.textContent = key;
+                        var attendingCell = document.createElement("td");
+                        attendingCell.textContent = RSVP[key]["attending"];
+                        var menuCell = document.createElement("td");
+                        menuCell.textContent = RSVP[key]["menu"];
+                        
+                        newRow.appendChild(numCell);
+                        newRow.appendChild(nameCell);
+                        newRow.appendChild(attendingCell);
+                        newRow.appendChild(menuCell);
+                        i++;
+                    }
+                }
+            }
+
+            //drawTable();
+
+        </script>
+    </body>
+</html>
