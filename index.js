@@ -75,7 +75,7 @@ function drawRSVP() {
         } 
         $(list).append("<li class='" + key + "'>" +
                             "<input type='checkbox' " + (attending?"checked":"") + 
-                                (isGuest?" id='guestCheckbox' onchange='guestClicked(this)'><input id='guest' type='textbox' value='" + guestValue + "'  placeholder='Enter guest name'>":" id='" + key + "'><label>" + name) + 
+                                (isGuest?" id='" + key + "' onchange='guestClicked(this)'><input id='guestName' type='textbox' value='" + guestValue + "'  placeholder='Enter guest name'>":" id='" + key + "'><label>" + name) + 
                                 (isGuest?"</input>":"</label>") +
                             "<input type='radio' name='menu" + i + "' " + (menu==="beef"?"checked":"") + " value='beef'><img src='beef.png'>" + 
                             "<input type='radio' name='menu" + i + "' " + (menu==="veg"?"checked":"") + " value='veg'><img src='carrot.png'/>" +
@@ -191,9 +191,9 @@ function forceLower(strInput)
 
 function guestClicked(button) {
     if (button.checked) {
-        $("#guest").val("").focus();
+        $("#guestName").val("").focus();
     } else {
-        $("#guest").val("Guest");
+        $("#guestName").val("Guest");
     return;
     }
 }
@@ -272,18 +272,21 @@ $(document).ready(function() {
     });
 
     $("#submitRSVP").on("click touchstart", function() {
-
-        var guest = $("#guest").val();
-        if (guest) {
-        }
-        updateRSVPObject();
+        var success = updateRSVPObject();
+        if (!success) return;
 
         firebase.database().ref('/' + userhash).update({
             rsvp: rsvpObj,
         });
+        
+        var userid = username.split(".").join("");
+        firebase.database().ref('/rsvp/').update({
+            [userid] : true,
+        });
         swal({
             title: "Thank You!", 
-            text: "We've received your RSVP! <br><br> Need to change something? Please do so by <b>July 8th</b> :)", 
+            text: formatAttendees(success) +
+                  "<br><br>Need to change something? Please do so by <b>July 8th</b> :)", 
             type: "success",
             html: true
         });
@@ -324,19 +327,72 @@ $(document).ready(function() {
     
 });
 
+function formatAttendees(list) {
+    if (list.length == 0) 
+        return "We’re sorry that you won’t be able to join us on our special day - you will be missed!";
+    var str = ""
+    for(var i = 0; i < list.length; i++) {
+        str += list[i];
+        if(i == list.length - 2) {
+            str += " and ";
+        } else if (list.length > 1 && i < list.length - 1) {
+            str += ", ";
+        }
+    }
+    return "We've received your RSVP. <br><br>Looking forward to seeing " + str + " on September 8th!";
+}
+
 function updateRSVPObject() {
     var list = document.getElementById("rsvpList");
     var i = 0;
-    Object.keys(rsvpObj).forEach(function(key,index) {
-        var val = key == "Guest" ? $("#guest").val() : $("#"+key).is(':checked');
-        if (!val || val == "Guest") val = false;
-        rsvpObj[key]["attending"] = !!val;
-        if (key == "Guest") rsvpObj[key]["name"] = val;
-        var name = "menu"+i;
-        rsvpObj[key]["menu"] = $("input[name='" + name + "']:checked").val();
+    var attendees = [];
+    for (var key in rsvpObj) {
+        if (rsvpObj.hasOwnProperty(key)) {
+            var attending = $("#"+key).is(':checked');
+            var guestName;
+            if (key === "Guest") {
+                if (attending) {
+                    guestName = $("#guestName").val();
+                    if (!guestName) {
+                        swal({
+                            title: "Almost..", 
+                            text: "Please enter your Guest's name",
+                            type: "error",
+                        });
+                        return false;
+                    }
+                    rsvpObj[key]["name"] = guestName;
+                } else {
+                    rsvpObj[key]["name"] = "";
+                }
+            }
+            rsvpObj[key]["attending"] = attending;
+            var groupName = "menu"+i;
+            var menu = $("input[name='" + groupName + "']:checked").val();
+            if (attending) {
+                var name = key.split(/(?=[A-Z])/).join(" ");
+                if (menu) {
+                    rsvpObj[key]["menu"] = menu;
+                    if (guestName) {
+                        attendees.push(guestName);
+                    } else {
+                        attendees.push(name);
+                    }
+                } else {
+                    swal({
+                        title: "Almost..", 
+                        text: "Please select a menu choice for " + name,
+                        type: "error",
+                    });
+                    return false;
+                }
+            } else {
+                rsvpObj[key]["menu"] = "";
+            }
+        }
         i++;
-    });
-
+    };
+    return attendees;
 }
 
 function resizeCanvas(){

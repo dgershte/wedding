@@ -20,6 +20,16 @@ form {
     position:relative;
 }
 
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 60%;
+    background-color: #c5c5c5;
+    height: 1px;
+    margin: 40px;
+}
+
 form img {
     padding-right:20px;
 }
@@ -209,12 +219,21 @@ input[type=radio]:checked ~ .check::before{
     text-align:left;
 }
 
-#guest::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color:grey;
+#hotels {
+    text-align:center;
+}
+
+#hotels img {
+    height:150px;
+    padding:40px;
+}
+
+#guestName::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color:#ff63a2;
     text-align:left;
 }
-#guest::-moz-placeholder { /* Firefox 19+ */
-    color:grey;
+#guestName::-moz-placeholder { /* Firefox 19+ */
+    color:#ff63a2;
     text-align:left;
 }
 
